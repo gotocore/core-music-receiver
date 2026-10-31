@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Core Music</title>
+<link rel="stylesheet" href="receiver.css">
+<script src="https://www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
+</head>
+<body>
+<video class="castMediaElement" playsinline></video>
+
+<main id="splash" class="screen">
+  <img class="splash-logo" src="core-logo.png" alt="Core">
+  <div class="splash-name">Core Music</div>
+</main>
+
+<main id="player" class="screen hidden">
+  <header class="brand">
+    <img class="brand-logo" src="core-logo.png" alt="Core">
+    <span class="brand-name">Core Music</span>
+  </header>
+  <section class="now">
+    <div class="cover" id="cover"><img id="coverImg" alt=""></div>
+    <div class="text">
+      <div class="title" id="title"></div>
+      <div class="artist" id="artist"></div>
+      <div class="album" id="album"></div>
+      <div class="state" id="state"></div>
+    </div>
+  </section>
+  <footer class="bottom">
+    <div class="bar" id="bar"><div class="fill" id="fill"></div></div>
+    <div class="times"><span id="cur">0:00</span><span id="dur">0:00</span></div>
+  </footer>
+</main>
+
+<script src="receiver.js"></script>
+</body>
+</html>
