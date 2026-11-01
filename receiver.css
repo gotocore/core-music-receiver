@@ -1,42 +1,54 @@
 /* Core Music receiver. Colours are the Core Music palette: black background, White accent #FFFFFF (Theme.kt Accent default),
-   subdued text #8C8C8C (res/values/colors.xml widget_sub). System fonts only: nothing is fetched from any font host. */
+   subdued text #8C8C8C (res/values/colors.xml widget_sub). ALL text is Chakra Petch (SIL OFL 1.1), self-hosted in fonts/ with
+   its licence (fonts/OFL.txt). Nothing is fetched from any font host. Sizes are in vh/vw so 1920x1080 and 1280x720 look the same;
+   the page keeps a 5% margin on every side (TV overscan). */
+@font-face { font-family: "Chakra Petch"; font-style: normal; font-weight: 400; font-display: swap; src: url("fonts/ChakraPetch-Regular.woff2") format("woff2"); }
+@font-face { font-family: "Chakra Petch"; font-style: normal; font-weight: 700; font-display: swap; src: url("fonts/ChakraPetch-Bold.woff2") format("woff2"); }
 :root {
   --bg: #000000;
   --ink: #FFFFFF;          /* Core Music default accent */
   --sub: #8C8C8C;          /* Core Music subdued text */
   --track: rgba(255, 255, 255, 0.28);
-  --pad-x: 8vw;            /* about 10% overscan margin */
-  --pad-y: 8vh;
+  --wave-off: #6B6B6B;     /* unplayed waveform bars */
+  --pad-x: 5vw;            /* 5% overscan margin */
+  --pad-y: 5vh;
+  --art: 40vh;             /* cover art and logo column are the same size */
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { width: 100%; height: 100%; background: var(--bg); color: var(--ink); overflow: hidden;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+  font-family: "Chakra Petch", sans-serif; font-weight: 400; }
 video.castMediaElement { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .hidden { display: none !important; }
 .screen { position: absolute; inset: 0; }
+img { display: block; }
 
 /* idle / splash */
-#splash { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3vh; }
-.splash-logo { width: 34vh; height: 34vh; }
-.splash-name { font-size: 6vh; letter-spacing: 0.04em; }
+#splash { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1vh; }
+.splash-logo { width: 56vh; height: 56vh; }          /* the wordmark file is square, so the shape is never stretched */
+.splash-name { font-size: 7vh; font-weight: 700; letter-spacing: 0.04em; }
 
 /* playback */
 #player { display: flex; flex-direction: column; padding: var(--pad-y) var(--pad-x); }
-.brand { display: flex; align-items: center; gap: 2vh; height: 12vh; }
-.brand-logo { width: 11vh; height: 11vh; }   /* Core logo, top left */
-.brand-name { font-size: 4.4vh; letter-spacing: 0.04em; }
-.now { flex: 1; display: flex; align-items: center; gap: 4vw; min-height: 0; }
-.cover { flex: none; width: 38vh; height: 38vh; background: #111; border-radius: 1vh; overflow: hidden; }
-.cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.text { min-width: 0; display: flex; flex-direction: column; gap: 1.6vh; }
-.title { font-size: 7vh; font-weight: 700; line-height: 1.1; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-.artist { font-size: 4.6vh; line-height: 1.2; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.now { flex: 1; display: flex; align-items: center; gap: 3vw; min-height: 0; }
+.cover { flex: none; width: var(--art); height: var(--art); background: #111; border-radius: 1vh; overflow: hidden; }
+.cover img { width: 100%; height: 100%; object-fit: cover; }
+.cover img.logo { object-fit: contain; padding: 4vh; }
+.text { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 1.6vh; }
+.title { font-size: 6.4vh; font-weight: 700; line-height: 1.12; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.artist { font-size: 4.4vh; line-height: 1.2; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .album { font-size: 3.6vh; color: var(--sub); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .state { font-size: 3vh; color: var(--sub); min-height: 3.6vh; }
 
-/* progress: lives in the lower quarter of the screen, thick and bright */
-.bottom { height: 17vh; display: flex; flex-direction: column; justify-content: flex-end; gap: 1.2vh; }
+/* the Core logo fills the large empty area on the right, same size as the cover */
+.brand { flex: none; width: var(--art); display: flex; flex-direction: column; align-items: center; gap: 0.6vh; }
+.brand-logo { width: var(--art); height: var(--art); }
+.brand-name { font-size: 4vh; font-weight: 700; letter-spacing: 0.04em; }
+
+/* progress: lives in the lower quarter of the screen, thick and bright. The waveform (when the sender supplies peaks) replaces the bar. */
+.bottom { height: 22vh; display: flex; flex-direction: column; justify-content: flex-end; gap: 1.2vh; }
+.wave { width: 100%; height: 11vh; display: block; }
 .bar { width: 100%; height: 2.6vh; border-radius: 1.3vh; background: var(--track); overflow: hidden; }
+
 .fill { width: 0%; height: 100%; border-radius: 1.3vh; background: var(--ink); box-shadow: 0 0 2vh rgba(255, 255, 255, 0.55); }
 .times { display: flex; justify-content: space-between; font-size: 3.2vh; font-variant-numeric: tabular-nums; }
 #cur { color: var(--ink); } #dur { color: var(--sub); }
