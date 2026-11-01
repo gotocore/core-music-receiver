@@ -4,9 +4,9 @@ The web receiver page for Core Music's Chromecast support (Cast Application ID F
 
 - `index.html` loads only Google's Cast receiver library (`https://www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js`). No other script, font or analytics.
 - `receiver.css`: layout and colours (white on black, 5% overscan margins, sizes in vh/vw so 1920x1080 and 1280x720 match).
-- `receiver.js`: shows the Core logo when idle, and cover, title, artist, album, progress and times while playing.
+- `receiver.js`: shows the Core Music logo when idle. While playing: cover, "Core Music" and the logo in the top row, then title, artist and album full width, then progress and times.
 - `fonts/`: Chakra Petch Regular and Bold (woff2, self-hosted, all receiver text) and `fonts/OFL.txt`, its SIL Open Font License 1.1. Source: google/fonts `ofl/chakrapetch` (copyright 2018 The Chakra Petch Project Authors); the woff2 files are the unmodified TTFs converted to woff2.
-- `core-wordmark.svg`: the approved Core wordmark r2 (chevron + "ore"), white, unmodified copy of `core-brand/masters/elements/wordmark/chevron-ore-r2.svg`.
+- `core-music-logo.png`: the Core Music logo (chevron, "ore" and music glyph), white on transparent, 607 x 1024. It is the approved Core Music adaptive icon foreground (`core-brand/masters/apps/music/adaptive/foreground.png`, 1024 x 1024) cropped to its content, nothing scaled unevenly or moved.
 
 Waveform: if the sender puts `"peaks": [integers 0..100]` (at least 16, Core Music's player uses 64) in the media's `customData`, the progress area draws a waveform (white played, grey unplayed). Without peaks the plain progress bar is shown. Nothing is decoded on the TV.
 

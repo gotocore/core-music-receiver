@@ -2,7 +2,7 @@
 // the audio and cover that the sender's own device serves on the local network.
 (function () {
   'use strict';
-  var LOGO = 'core-wordmark.svg';
+  var LOGO = 'core-music-logo.png';
   var context = cast.framework.CastReceiverContext.getInstance();
   var playerManager = context.getPlayerManager();
 

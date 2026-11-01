@@ -13,28 +13,25 @@
 <video class="castMediaElement" playsinline></video>
 
 <main id="splash" class="screen">
-  <img class="splash-logo" src="core-wordmark.svg" alt="Core">
+  <img class="splash-logo" src="core-music-logo.png" alt="Core Music">
   <div class="splash-name">Core Music</div>
 </main>
 
 <main id="player" class="screen hidden">
-  <section class="now">
+  <section class="top">
     <div class="cover" id="cover"><img id="coverImg" alt=""></div>
-    <div class="text">
-      <div class="title" id="title"></div>
-      <div class="artist" id="artist"></div>
-      <div class="album" id="album"></div>
-      <div class="state" id="state"></div>
-    </div>
-    <div class="brand">
-      <img class="brand-logo" src="core-wordmark.svg" alt="Core">
-      <div class="brand-name">Core Music</div>
-    </div>
+    <div class="brand-name">Core Music</div>
+    <img class="brand-logo" src="core-music-logo.png" alt="Core Music">
+  </section>
+  <section class="text">
+    <div class="title" id="title"></div>
+    <div class="artist" id="artist"></div>
+    <div class="album" id="album"></div>
   </section>
   <footer class="bottom">
     <canvas class="wave hidden" id="wave"></canvas>
     <div class="bar" id="bar"><div class="fill" id="fill"></div></div>
-    <div class="times"><span id="cur">0:00</span><span id="dur">0:00</span></div>
+    <div class="times"><span id="cur">0:00</span><span id="state"></span><span id="dur">0:00</span></div>
   </footer>
 </main>
 

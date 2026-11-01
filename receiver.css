@@ -9,10 +9,9 @@
   --ink: #FFFFFF;          /* Core Music default accent */
   --sub: #8C8C8C;          /* Core Music subdued text */
   --track: rgba(255, 255, 255, 0.28);
-  --wave-off: #6B6B6B;     /* unplayed waveform bars */
   --pad-x: 5vw;            /* 5% overscan margin */
   --pad-y: 5vh;
-  --art: 40vh;             /* cover art and logo column are the same size */
+  --art: 36vh;             /* cover art square; the logo is the same height */
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { width: 100%; height: 100%; background: var(--bg); color: var(--ink); overflow: hidden;
@@ -22,33 +21,31 @@ video.castMediaElement { position: absolute; width: 1px; height: 1px; opacity: 0
 .screen { position: absolute; inset: 0; }
 img { display: block; }
 
-/* idle / splash */
-#splash { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1vh; }
-.splash-logo { width: 56vh; height: 56vh; }          /* the wordmark file is square, so the shape is never stretched */
-.splash-name { font-size: 7vh; font-weight: 700; letter-spacing: 0.04em; }
+/* idle / splash: the Core Music logo (chevron, "ore" and music glyph; the PNG keeps its own proportions) */
+#splash { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3vh; }
+.splash-logo { height: 58vh; width: auto; }
+.splash-name { font-size: 6vh; font-weight: 700; letter-spacing: 0.04em; }
 
-/* playback */
+/* playback: top row (art left, name in the middle, logo right), then the text, then progress */
 #player { display: flex; flex-direction: column; padding: var(--pad-y) var(--pad-x); }
-.now { flex: 1; display: flex; align-items: center; gap: 3vw; min-height: 0; }
-.cover { flex: none; width: var(--art); height: var(--art); background: #111; border-radius: 1vh; overflow: hidden; }
+.top { flex: none; height: var(--art); display: grid; grid-template-columns: var(--art) 1fr auto; align-items: start; }
+.cover { width: var(--art); height: var(--art); background: #111; border-radius: 1vh; overflow: hidden; }
 .cover img { width: 100%; height: 100%; object-fit: cover; }
-.cover img.logo { object-fit: contain; padding: 4vh; }
-.text { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 1.6vh; }
-.title { font-size: 6.4vh; font-weight: 700; line-height: 1.12; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-.artist { font-size: 4.4vh; line-height: 1.2; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.album { font-size: 3.6vh; color: var(--sub); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.state { font-size: 3vh; color: var(--sub); min-height: 3.6vh; }
+.cover img.logo { object-fit: contain; padding: 3vh; }
+.brand-name { justify-self: center; text-align: center; font-size: 4.4vh; font-weight: 700; letter-spacing: 0.04em; line-height: 1; margin-top: -0.09em; }
+.brand-logo { height: var(--art); width: auto; }   /* same height as the art, top-aligned, aspect kept by width:auto */
 
-/* the Core logo fills the large empty area on the right, same size as the cover */
-.brand { flex: none; width: var(--art); display: flex; flex-direction: column; align-items: center; gap: 0.6vh; }
-.brand-logo { width: var(--art); height: var(--art); }
-.brand-name { font-size: 4vh; font-weight: 700; letter-spacing: 0.04em; }
+/* title, artist, album: full width under the top row */
+.text { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: 1.2vh; padding-top: 3.4vh; overflow: hidden; }
+.title { font-size: 7vh; font-weight: 700; line-height: 1.12; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.artist { font-size: 5vh; line-height: 1.2; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.album { font-size: 4.2vh; line-height: 1.2; color: var(--sub); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 
-/* progress: lives in the lower quarter of the screen, thick and bright. The waveform (when the sender supplies peaks) replaces the bar. */
-.bottom { height: 22vh; display: flex; flex-direction: column; justify-content: flex-end; gap: 1.2vh; }
-.wave { width: 100%; height: 11vh; display: block; }
+/* progress: lives at the bottom, thick and bright. The waveform (when the sender supplies peaks) replaces the bar. */
+.bottom { flex: none; display: flex; flex-direction: column; justify-content: flex-end; gap: 1.2vh; padding-top: 1vh; }
+.wave { width: 100%; height: 9vh; display: block; }
 .bar { width: 100%; height: 2.6vh; border-radius: 1.3vh; background: var(--track); overflow: hidden; }
-
 .fill { width: 0%; height: 100%; border-radius: 1.3vh; background: var(--ink); box-shadow: 0 0 2vh rgba(255, 255, 255, 0.55); }
-.times { display: flex; justify-content: space-between; font-size: 3.2vh; font-variant-numeric: tabular-nums; }
+.times { display: flex; justify-content: space-between; font-size: 3.4vh; font-variant-numeric: tabular-nums; }
 #cur { color: var(--ink); } #dur { color: var(--sub); }
+#state { flex: 1; text-align: center; color: var(--sub); }
