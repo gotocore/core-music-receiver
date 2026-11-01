@@ -23,7 +23,7 @@ img { display: block; }
 
 /* idle / splash: the Core Music logo (chevron, "ore" and music glyph; the PNG keeps its own proportions) */
 #splash { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3vh; }
-.splash-logo { height: 58vh; width: auto; }
+.splash-logo { height: 52vh; width: auto; }
 .splash-name { font-size: 6vh; font-weight: 700; letter-spacing: 0.04em; }
 
 /* playback: top row (art left, name in the middle, logo right), then the text, then progress */
