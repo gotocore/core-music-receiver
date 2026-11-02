@@ -27,7 +27,7 @@ img { display: block; }
 .splash-name { font-size: 6vh; font-weight: 700; letter-spacing: 0.04em; }
 
 /* playback: top row (art left, name in the middle, logo right), then the text, then progress */
-#player { display: flex; flex-direction: column; padding: var(--pad-y) var(--pad-x); }
+#player { display: flex; flex-direction: column; padding: var(--pad-y) var(--pad-x); transition: transform 4s ease-in-out; }  /* receiver.js nudges this a few pixels every 45 s (non-static picture, see Google's Ambient Mode guidance) */
 .top { flex: none; height: var(--art); display: grid; grid-template-columns: var(--art) 1fr auto; align-items: start; }
 .cover { width: var(--art); height: var(--art); background: #111; border-radius: 1vh; overflow: hidden; }
 .cover img { width: 100%; height: 100%; object-fit: cover; }
@@ -35,9 +35,9 @@ img { display: block; }
 .brand-name { justify-self: center; text-align: center; font-size: 4.4vh; font-weight: 700; letter-spacing: 0.04em; line-height: 1; margin-top: -0.09em; }
 .brand-logo { height: var(--art); width: auto; }   /* same height as the art, top-aligned, aspect kept by width:auto */
 
-/* title, artist, album: full width under the top row */
-.text { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: 1.2vh; padding-top: 3.4vh; overflow: hidden; }
-.title { font-size: 7vh; font-weight: 700; line-height: 1.12; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+/* title, artist, album: full width under the top row, centred horizontally (Jacob, Nov 1). Title keeps its 2-line ellipsis, artist and album one line each. */
+.text { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: 1.2vh; padding-top: 3.4vh; overflow: hidden; text-align: center; }
+.title { font-size: 7vh; font-weight: 700; line-height: 1.12; padding: 0 1vh; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .artist { font-size: 5vh; line-height: 1.2; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .album { font-size: 4.2vh; line-height: 1.2; color: var(--sub); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 

@@ -79,6 +79,34 @@
     bars('#FFFFFF', 0, px);   // played: white
   }
 
+
+  // Screen on while a song is playing (progressive enhancement). Google TV / Android TV start their Ambient Mode screensaver after about 10 minutes
+  // without a remote press, and audio-only playback does not hold the screen (developer.android.com/training/tv/playback/ambient-mode). The standard
+  // Screen Wake Lock API (developer.chrome.com/docs/capabilities/web-apis/wake-lock) asks the browser to keep the screen on; where the receiver's
+  // browser has no such API, or refuses, nothing changes (the audio keeps playing either way). Released as soon as playback pauses or ends.
+  // Because the picture then stays up for hours, #player drifts a few pixels every 45 s so no pixel is lit in the same place for long.
+  var wakeLock = null, wantAwake = false;
+  function setAwake(on) {
+    wantAwake = on;
+    try {
+      if (on && !wakeLock && navigator.wakeLock && navigator.wakeLock.request) {
+        navigator.wakeLock.request('screen').then(function (l) {
+          if (!wantAwake) { try { l.release(); } catch (e) {} return; }
+          wakeLock = l;
+          l.addEventListener('release', function () { if (wakeLock === l) wakeLock = null; });
+        }, function () { wakeLock = null; });
+      } else if (!on && wakeLock) {
+        var l = wakeLock; wakeLock = null; l.release();
+      }
+    } catch (e) { wakeLock = null; }
+  }
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible' && wantAwake && !wakeLock) setAwake(true); });
+  var DRIFT = [[0, 0], [6, 4], [-5, 6], [4, -6], [-6, -4]], driftAt = 0;
+  setInterval(function () {
+    driftAt = (driftAt + 1) % DRIFT.length;
+    els.player.style.transform = 'translate(' + DRIFT[driftAt][0] + 'px,' + DRIFT[driftAt][1] + 'px)';
+  }, 45000);
+
   var data = {};
   var binder = new cast.framework.ui.PlayerDataBinder(data);
   var S = cast.framework.ui.State;
@@ -87,6 +115,7 @@
     var idle = !data.state || data.state === S.LAUNCHING || data.state === S.IDLE;
     els.splash.classList.toggle('hidden', !idle);
     els.player.classList.toggle('hidden', idle);
+    setAwake(data.state === S.PLAYING || data.state === S.BUFFERING || data.state === S.LOADING);
     if (idle) { shownCover = null; peaksFor = null; peaks = null; return; }
     var md = data.metadata || {};
     els.title.textContent = data.title || md.title || '';
